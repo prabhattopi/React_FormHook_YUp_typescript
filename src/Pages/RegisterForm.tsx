@@ -1,4 +1,10 @@
-import { Avatar, Button, InputAdornment, TextField, Typography } from "@mui/material";
+import {
+  Avatar,
+  Button,
+  InputAdornment,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
@@ -7,14 +13,21 @@ import SelectFields from "../components/SelectFields";
 import CheckBox from "../components/CheckBox";
 import { useForm } from "react-hook-form";
 const RegisterForm = () => {
-  const {handleSubmit,control}=useForm();
-  const onSubmit=(data)=>{
-    console.log(data)
-
-  }
+  const { handleSubmit, control } = useForm({
+    defaultValues: {
+      fullname: "",
+      email: "",
+      mobile: "",
+      country: "",
+      password: "",
+      cofirmpassword: "",
+    },
+  });
+  const onSubmit = (data: any) => {
+    console.log(data);
+  };
   return (
     <Box
-   
       sx={{
         display: "flex",
         flexDirection: "column",
@@ -26,12 +39,17 @@ const RegisterForm = () => {
         <HowToRegIcon />
       </Avatar>
       <Typography component="h1">Sign Up</Typography>
-      <Box noValidate  onSubmit={handleSubmit(onSubmit)} component="form" sx={{ width: "100%", mt: "2rem" }}>
+      <Box
+        noValidate
+        onSubmit={handleSubmit(onSubmit)}
+        component="form"
+        sx={{ width: "100%", mt: "2rem" }}
+      >
         <TextFields control={control} name="fullname" label="Full Name" />
         <TextFields control={control} name="email" label="Email" />
         <TextFields
-        control={control}
-         name="mobile"
+          control={control}
+          name="mobile"
           label="Mobile Phone"
           inputProps={{
             startAdornment: (
@@ -42,9 +60,20 @@ const RegisterForm = () => {
         />
         <SelectFields control={control} name="country" label="Country" />
         <TextFields control={control} name="password" label="Password" />
-        <TextFields control={control} name="confirmpassword" label="Confirm Password" />
-        <CheckBox/>
-        <Button type="submit" fullWidth variant="contained" sx={{mt:"3",mb:"2"}}>Sigu up</Button>
+        <TextFields
+          control={control}
+          name="confirmpassword"
+          label="Confirm Password"
+        />
+        <CheckBox />
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          sx={{ mt: "3", mb: "2" }}
+        >
+          Sigu up
+        </Button>
       </Box>
     </Box>
   );

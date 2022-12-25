@@ -1,19 +1,31 @@
 import { FormControl, TextField } from "@mui/material";
 import React from "react";
+
+import { Controller } from "react-hook-form";
 import { Label } from "../Interface";
 interface Props {
   label: string;
   inputProps?: {};
+  control: any;
+  name: string;
 }
 const TextFields: React.FC<Props> = (props) => {
-  const { label, inputProps } = props;
+  const { label, inputProps, control, name } = props;
+
   return (
     <FormControl fullWidth sx={{ mb: "1rem" }}>
-      <TextField
-        required
-        label={label}
-        variant="filled"
-        InputProps={inputProps}
+      <Controller
+        name={name}
+        control={control}
+        render={({ field }) => (
+          <TextField
+          {...field}
+            required
+            label={label}
+            variant="filled"
+            InputProps={inputProps}
+          />
+        )}
       />
     </FormControl>
   );

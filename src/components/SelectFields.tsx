@@ -1,5 +1,5 @@
 import { FormControl, MenuItem, TextField } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Controller } from "react-hook-form";
 interface Props {
   label: string;
@@ -7,6 +7,23 @@ interface Props {
   name: string;
 }
 const SelectFields: React.FC<Props> = (props) => {
+  const [listCountry,setListCountry]=useState([])
+  const fetchData=async()=>{
+    let res=await fetch(`https://restcountries.com/v3.1/all`)
+    let resdata=await res.json()
+    setListCountry(resdata)
+  }
+  useEffect(() => {
+   fetchData()
+
+
+  
+    return () => {
+     fetch
+    }
+  }, [])
+  
+
   const { label, control, name } = props;
   return (
     <FormControl fullWidth sx={{ mb: "1rem" }}>

@@ -19,7 +19,7 @@ const SelectFields: React.FC<Props> = (props) => {
 
   
     return () => {
-     fetch
+     fetchData
     }
   }, [])
   

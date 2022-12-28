@@ -65,7 +65,7 @@ const RegisterForm = () => {
           name="confirmpassword"
           label="Confirm Password"
         />
-        <CheckBox />
+        <CheckBox control={control} name="privacy" />
         <Button
           type="submit"
           fullWidth

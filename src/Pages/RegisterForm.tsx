@@ -1,26 +1,31 @@
-import {
-  Avatar,
-  Button,
-  InputAdornment,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Avatar, Button, InputAdornment, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import React from "react";
+
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import TextFields from "../components/TextFields";
 import SelectFields from "../components/SelectFields";
-import CheckBox from "../components/CheckBox";
+
 import { useForm } from "react-hook-form";
+import CheckBoxFields from "../components/CheckBoxFields";
+interface Default {
+  fullname: string;
+  email: string;
+  mobile: string;
+  country: string;
+  password: string;
+  confirmpassword: string;
+  privacy: boolean;
+}
 const RegisterForm = () => {
-  const { handleSubmit, control } = useForm({
+  const { handleSubmit, control } = useForm<Default>({
     defaultValues: {
       fullname: "",
       email: "",
       mobile: "",
       country: "",
       password: "",
-      cofirmpassword: "",
+      confirmpassword: "",
+      privacy: true,
     },
   });
   const onSubmit = (data: any) => {
@@ -65,7 +70,7 @@ const RegisterForm = () => {
           name="confirmpassword"
           label="Confirm Password"
         />
-        <CheckBox control={control} name="privacy" />
+        <CheckBoxFields control={control} name="privacy" />
         <Button
           type="submit"
           fullWidth

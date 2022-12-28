@@ -2,10 +2,10 @@ import { FormControl, TextField } from "@mui/material";
 import React from "react";
 
 import { Controller } from "react-hook-form";
-import { Label } from "../Interface";
+
 interface Props {
   label: string;
-  inputProps?: {};
+  inputProps?:any;
   control: any;
   name: string;
 }

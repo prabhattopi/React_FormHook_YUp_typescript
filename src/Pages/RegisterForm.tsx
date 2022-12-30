@@ -1,12 +1,14 @@
 import { Avatar, Button, InputAdornment, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import TextFields from "../components/TextFields";
 import SelectFields from "../components/SelectFields";
 
 import { useForm } from "react-hook-form";
 import CheckBoxFields from "../components/CheckBoxFields";
+import { pawdRegExp, phoneRegExp } from "../Utils";
 interface Default {
   fullname: string;
   email: string;
@@ -16,8 +18,33 @@ interface Default {
   confirmpassword: string;
   privacy: boolean;
 }
+//schema Validation
+const schema = yup.object({
+  fullname: yup.string().required("Full Name is required"),
+  email: yup.string().required("Email is required").email(),
+  mobile: yup
+    .string()
+    .required("Mobile Phone is required")
+    .matches(phoneRegExp, "Phone number is not valid"),
+  country: yup.string().required("Country is required"),
+  password: yup
+    .string()
+    .required("Password is required")
+    .matches(
+      pawdRegExp,
+      "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
+    ),
+  confirmpassword: yup
+    .string()
+    .oneOf([yup.ref("password"), null], "Password must match"),
+  privacy: yup.bool().oneOf([true], "Field must be checked"),
+});
 const RegisterForm = () => {
-  const { handleSubmit, control } = useForm<Default>({
+  const {
+    handleSubmit,
+    formState: { errors },
+    control,
+  } = useForm<Default>({
     defaultValues: {
       fullname: "",
       email: "",
@@ -25,9 +52,11 @@ const RegisterForm = () => {
       country: "",
       password: "",
       confirmpassword: "",
-      privacy: true,
+      privacy: false,
     },
+    resolver: yupResolver(schema),
   });
+
   const onSubmit = (data: any) => {
     console.log(data);
   };
@@ -50,9 +79,20 @@ const RegisterForm = () => {
         component="form"
         sx={{ width: "100%", mt: "2rem" }}
       >
-        <TextFields control={control} name="fullname" label="Full Name" />
-        <TextFields control={control} name="email" label="Email" />
         <TextFields
+          errors={errors}
+          control={control}
+          name="fullname"
+          label="Full Name"
+        />
+        <TextFields
+          errors={errors}
+          control={control}
+          name="email"
+          label="Email"
+        />
+        <TextFields
+          errors={errors}
           control={control}
           name="mobile"
           label="Mobile Phone"
@@ -63,14 +103,25 @@ const RegisterForm = () => {
             type: "number",
           }}
         />
-        <SelectFields control={control} name="country" label="Country" />
-        <TextFields control={control} name="password" label="Password" />
+        <SelectFields
+          errors={errors}
+          control={control}
+          name="country"
+          label="Country"
+        />
         <TextFields
+          errors={errors}
+          control={control}
+          name="password"
+          label="Password"
+        />
+        <TextFields
+          errors={errors}
           control={control}
           name="confirmpassword"
           label="Confirm Password"
         />
-        <CheckBoxFields control={control} name="privacy" />
+        <CheckBoxFields errors={errors} control={control} name="privacy" />
         <Button
           type="submit"
           fullWidth

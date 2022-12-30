@@ -1,10 +1,13 @@
 import { FormControl, Menu, MenuItem, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Controller } from "react-hook-form";
+
+import ErrorsMesage from "./ErrorsMesage";
 interface Props {
   label: string;
   control: any;
   name: string;
+  errors: any;
 }
 
 interface Array {
@@ -33,15 +36,24 @@ const SelectFields: React.FC<Props> = (props) => {
   const countryNames =
     listCountry && listCountry.map((item) => item.name.common).sort();
   // console.log(countryNames);
-  const { label, control, name } = props;
+  const { label, control, name, errors } = props;
   return (
     <FormControl fullWidth sx={{ mb: "1rem" }}>
       <Controller
         name={name}
         control={control}
         render={({ field }) => (
-          <TextField {...field} required select label={label} variant="filled">
-            <MenuItem value=''><em>None</em></MenuItem>
+          <TextField
+            error={!!errors[name]}
+            {...field}
+            required
+            select
+            label={label}
+            variant="filled"
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
             {countryNames.map((country) => (
               <MenuItem key={country} value={country}>
                 {country}
@@ -50,6 +62,7 @@ const SelectFields: React.FC<Props> = (props) => {
           </TextField>
         )}
       />
+      {errors[name] ? <ErrorsMesage message={errors[name].message} /> : ""}
     </FormControl>
   );
 };

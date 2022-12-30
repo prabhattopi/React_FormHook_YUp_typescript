@@ -3,14 +3,17 @@ import React from "react";
 
 import { Controller } from "react-hook-form";
 
+import ErrorsMesage from "./ErrorsMesage";
+
 interface Props {
   label: string;
-  inputProps?:any;
+  inputProps?: any;
   control: any;
   name: string;
+  errors: any;
 }
 const TextFields: React.FC<Props> = (props) => {
-  const { label, inputProps, control, name } = props;
+  const { label, inputProps, control, name, errors } = props;
 
   return (
     <FormControl fullWidth sx={{ mb: "1rem" }}>
@@ -19,7 +22,8 @@ const TextFields: React.FC<Props> = (props) => {
         control={control}
         render={({ field }) => (
           <TextField
-          {...field}
+            {...field}
+            error={!!errors[name]}
             required
             label={label}
             variant="filled"
@@ -27,6 +31,7 @@ const TextFields: React.FC<Props> = (props) => {
           />
         )}
       />
+      {errors[name] ? <ErrorsMesage message={errors[name].message} /> : ""}
     </FormControl>
   );
 };
